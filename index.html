@@ -1,1526 +1,529 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Analyst Hub – Phân tích & giới thiệu game | Trung Hậu</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAME SCOUT — Phân Tích &amp; Giới Thiệu Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12141c;
+    --panel:#1b1e29;
+    --panel-raised:#20232f;
+    --line:#2c3040;
+    --gold:#e8b84b;
+    --gold-dim:#8a6f2d;
+    --teal:#4fd1c5;
+    --text:#edeae0;
+    --muted:#8b8d98;
+    --danger:#e06b6b;
+    --radius:2px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:48px 48px;
+    background-attachment:fixed;
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+  }
+  a{color:var(--teal);}
+  ::selection{background:var(--gold);color:#1a1a1a;}
+  :focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
 
-  <!-- Open Graph & SEO -->
-  <meta name="description" content="Nền tảng phân tích game chuyên nghiệp, so sánh giá Steam & Epic, kiểm tra cấu hình PC và tư vấn mua game thông minh. Created & Developed by Trung Hậu.">
-  <meta property="og:title" content="Game Analyst Hub – Trung Hậu">
-  <meta property="og:description" content="Phân tích game. So sánh giá Steam vs Epic Games. Kiểm tra cấu hình PC. Đánh giá game chuyên sâu.">
-  <meta property="og:type" content="website">
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0f6ff',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
-              accent: '#06b6d4',
-              neon: '#10b981',
-              epic: '#0078f2',
-              steam: '#171a21',
-              steamAccent: '#66c0f4'
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif']
-          }
-        }
-      }
-    }
-  </script>
+  header.top{
+    padding:36px 20px 20px;
+    text-align:center;
+  }
+  .brand{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;font-size:26px;letter-spacing:.5px;
+  }
+  .brand .dot{width:10px;height:10px;background:var(--gold);border-radius:50%;box-shadow:0 0 10px var(--gold);}
+  .tagline{color:var(--muted);font-size:14px;margin-top:6px;letter-spacing:.4px;}
 
-  <!-- Google Font: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  .console{
+    margin:28px auto 8px;
+    max-width:720px;
+    position:relative;
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:22px;
+  }
+  .console::before,.console::after,
+  .console .corner-tl,.console .corner-br{
+    content:"";position:absolute;width:16px;height:16px;
+    border-color:var(--gold);border-style:solid;
+  }
+  .console::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+  .console::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+  .console-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;color:var(--gold);
+    letter-spacing:1.5px;text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .search-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .search-row input[type=text]{
+    flex:1 1 260px;
+    background:var(--ink);
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:14px 14px;
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+  }
+  .search-row input[type=text]::placeholder{color:var(--muted);}
+  .search-row button{
+    background:var(--gold);
+    color:#1a1608;
+    border:none;
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    letter-spacing:.5px;
+    padding:14px 22px;
+    cursor:pointer;
+    text-transform:uppercase;
+    font-size:13px;
+    transition:filter .15s ease;
+  }
+  .search-row button:hover{filter:brightness(1.1);}
+  .search-row button:disabled{opacity:.5;cursor:progress;}
+  .hint{color:var(--muted);font-size:12.5px;margin-top:10px;line-height:1.6;}
+  .hint code{background:var(--ink);padding:1px 5px;border-radius:2px;color:var(--teal);font-family:'JetBrains Mono',monospace;}
 
-  <!-- React 18 & ReactDOM & Babel -->
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  #status{
+    max-width:720px;margin:14px auto 0;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;color:var(--muted);
+    min-height:18px;
+  }
+  #status.err{color:var(--danger);}
 
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  /* ---- Result stat-sheet ---- */
+  .sheet{
+    margin-top:34px;
+    border:1px solid var(--line);
+    background:var(--panel);
+    position:relative;
+    display:none;
+  }
+  .sheet.show{display:block;animation:fadeIn .35s ease;}
+  @media (prefers-reduced-motion: reduce){ .sheet.show{animation:none;} }
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
 
-  <style>
-    /* Custom Scrollbar & Glassmorphism */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0f172a;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #334155;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #475569;
-    }
-    
-    .glass-card {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
+  .sheet-hero{
+    display:flex;gap:0;flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+  }
+  .sheet-hero img{
+    width:280px;max-width:100%;height:auto;display:block;
+    border-right:1px solid var(--line);
+    object-fit:cover;
+  }
+  .sheet-hero-info{flex:1 1 260px;padding:22px;min-width:240px;}
+  .sheet-hero-info h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:26px;margin:0 0 6px;line-height:1.15;
+  }
+  .sheet-hero-info .devpub{color:var(--muted);font-size:13px;margin-bottom:14px;}
+  .badge-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .badge{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.5px;
+    border:1px solid var(--line);
+    padding:4px 9px;color:var(--teal);
+    text-transform:uppercase;
+  }
+  .badge.gold{color:var(--gold);border-color:var(--gold-dim);}
 
-    .glass-card-light {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-    }
+  .panel-grid{
+    display:grid;grid-template-columns:1fr 1fr;
+  }
+  @media (max-width:640px){.panel-grid{grid-template-columns:1fr;}}
 
-    .neon-border-steam {
-      box-shadow: 0 0 15px rgba(102, 192, 244, 0.2);
-    }
-    .neon-border-epic {
-      box-shadow: 0 0 15px rgba(0, 120, 242, 0.2);
-    }
+  .panel{
+    padding:20px 22px;
+    border-bottom:1px solid var(--line);
+    border-right:1px solid var(--line);
+  }
+  .panel:nth-child(2n){border-right:none;}
+  @media (max-width:640px){.panel{border-right:none !important;}}
+  .panel.full{grid-column:1/-1;border-right:none;}
 
-    @keyframes pulse-subtle {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-    .animate-pulse-subtle {
-      animation: pulse-subtle 3s infinite ease-in-out;
-    }
-  </style>
+  .panel h3{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--gold);margin:0 0 12px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .panel h3::before{content:"▸";color:var(--teal);}
+  .panel p{margin:0 0 8px;font-size:14.5px;line-height:1.6;color:var(--text);}
+  .kv{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:5px 0;border-bottom:1px dashed var(--line);}
+  .kv:last-child{border-bottom:none;}
+  .kv span:first-child{color:var(--muted);}
+  .kv span:last-child{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12.5px;}
+
+  .gauge-wrap{display:flex;align-items:center;gap:16px;}
+  .gauge{
+    --pct:0;
+    width:74px;height:74px;border-radius:50%;
+    background:conic-gradient(var(--gold) calc(var(--pct)*1%), var(--line) 0);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .gauge span{
+    width:58px;height:58px;border-radius:50%;background:var(--panel);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;color:var(--gold);
+  }
+
+  .specs-block{margin-bottom:14px;}
+  .specs-block h4{
+    font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;
+    margin:0 0 6px;font-weight:600;
+  }
+  .specs-block ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7;}
+
+  .tag-cloud{display:flex;flex-wrap:wrap;gap:7px;}
+  .tag-cloud span{
+    font-size:12px;padding:4px 10px;border:1px solid var(--line);color:var(--muted);
+  }
+
+  .source-line{
+    padding:14px 22px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11.5px;color:var(--muted);
+    border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;
+  }
+
+  .demo-note{
+    max-width:720px;margin:16px auto 0;
+    font-size:12px;color:var(--muted);
+    border-left:2px solid var(--gold-dim);
+    padding:8px 14px;line-height:1.6;
+  }
+
+  footer{
+    text-align:center;margin-top:70px;
+    color:var(--muted);font-size:12.5px;
+    font-family:'JetBrains Mono',monospace;
+    letter-spacing:.3px;
+  }
+  footer .credit{color:var(--gold);}
+</style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen transition-colors duration-200 antialiased selection:bg-cyan-500 selection:text-white">
-
-  <div id="root"></div>
-
-  <script type="text/babel">
-    const { useState, useEffect, useMemo, useRef } = React;
-
-    /* ==========================================================================
-       1. EMBEDDED REALISTIC DATABASE & FALLBACK ANALYST DATA ENGINE
-       ========================================================================== */
-    const PRESET_GAMES_DATABASE = [
-      {
-        id: "1091500",
-        steamAppId: "1091500",
-        epicSlug: "cyberpunk-2077",
-        name: "Cyberpunk 2077",
-        fullTitle: "Cyberpunk 2077: Phantom Liberty Edition",
-        coverImage: "https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg",
-        backgroundImage: "https://cdn.akamai.steamstatic.com/steam/apps/1091500/page_bg_generated_v6b.jpg",
-        developer: "CD PROJEKT RED",
-        publisher: "CD PROJEKT RED",
-        releaseDate: "10/12/2020",
-        status: "Released",
-        ageRating: "18+",
-        platforms: { windows: true, macos: false, linux: true, console: true },
-        genres: ["Action", "RPG", "Open World", "Sci-Fi", "Cyberpunk"],
-        tags: ["Cyberpunk", "Open World", "RPG", "FPS", "Nudity", "Futuristic", "Singleplayer"],
-        steamPrice: { original: 990000, current: 495000, discount: 50, currency: "VND", isFree: false },
-        epicPrice: { original: 990000, current: 495000, discount: 50, currency: "VND", isFree: false },
-        playerModes: {
-          singleplayer: true,
-          multiplayer: false,
-          coop: false,
-          pvp: false,
-          pve: true,
-          maxPlayers: 1,
-          controllerSupport: "Full"
-        },
-        story: {
-          officialSummary: "Cyberpunk 2077 là game nhập vai hành động phiêu lưu thế giới mở lấy bối cảnh tại Night City, một đại đô thị cuồng loạn vì quyền lực, vẻ đẹp cá nhân và những bản cấy ghép cơ thể kỹ thuật số. Bạn vào vai V, một kẻ đánh thuê ngoài vòng pháp luật tìm kiếm mẫu cấy ghép độc nhất vô nhị mang chìa khóa của sự bất tử.",
-          analystAnalysis: "Cốt truyện của Cyberpunk 2077 khai thác sâu sắc triết lý nhân sinh trong một thế giới mà công nghệ lấn át nhân tính. Hành trình của V cùng linh hồn Keanu Reeves (Johnny Silverhand) tạo nên mối tương quan đối lập độc đáo. Nhịp truyện dồn dập, nhiều nhánh lựa chọn mang ý nghĩa đạo đức cao.",
-          spoilerWarning: "V bị nhiễm con chip chứa ý thức của Johnny Silverhand, khiến bộ não của V dần bị ghi đè và chỉ còn sống được vài tháng."
-        },
-        gameplay: {
-          combat: 9,
-          exploration: 9,
-          characterProgression: 9,
-          loot: 8,
-          crafting: 7,
-          stealth: 8,
-          shooting: 9,
-          difficulty: "Medium",
-          replayability: "High",
-          overviewText: "Lối chơi kết hợp xuất sắc giữa bắn súng góc nhìn thứ nhất (FPS) dồn dập và cơ chế RPG chuyên sâu với cây kỹ năng Cyberware phong phú. Bạn có thể chọn phong cách Hacker (Netrunner), Sát thủ lén lút hoặc Chiến binh càn quét bằng vũ khí hạng nặng."
-        },
-        systemRequirements: {
-          minimum: {
-            os: "Windows 10 64-bit",
-            cpu: "Intel Core i7-6700 hoặc AMD Ryzen 5 1600",
-            ram: "12 GB RAM",
-            gpu: "NVIDIA GeForce GTX 1060 6GB hoặc AMD Radeon RX 580 8GB",
-            directx: "Version 12",
-            storage: "70 GB SSD",
-            notes: "Thiết lập Low 1080p @ 30 FPS"
-          },
-          recommended: {
-            os: "Windows 10/11 64-bit",
-            cpu: "Intel Core i7-12700K hoặc AMD Ryzen 7 7800X3D",
-            ram: "16 GB RAM",
-            gpu: "NVIDIA GeForce RTX 3070 hoặc AMD Radeon RX 6800 XT",
-            directx: "Version 12",
-            storage: "70 GB NVMe SSD",
-            notes: "Thiết lập High/Ultra 1080p/1440p @ 60 FPS"
-          }
-        },
-        ratings: {
-          graphics: 9.5,
-          audio: 9.0,
-          gameplay: 9.0,
-          story: 8.8,
-          performance: 8.2,
-          replayability: 8.5,
-          value: 9.0
-        },
-        pros: [
-          "Thế giới Night City vô cùng chân thực, choợp ngợp và giàu chi tiết đồ họa",
-          "Cốt truyện cuốn hút với dàn nhân vật ấn tượng (Johnny Silverhand, Judy, Panam)",
-          "Lối chơi hành động tự do, linh hoạt kết hợp Cyberware & Hacking",
-          "Nhạc nền Synthwave/Industrial Metal đỉnh cao tăng nhiệt trận đấu"
-        ],
-        cons: [
-          "Vẫn tồn tại một số lỗi vặt nhỏ dù bản update 2.0 đã sửa phần lớn",
-          "Yêu cầu cấu hình phần cứng PC khá nặng để bật Ray Tracing"
-        ],
-        suitableFor: [
-          "Game thủ yêu thích chủ đề Cyberpunk, viễn tưởng tương lai",
-          "Người thích game RPG góc nhìn thứ nhất (FPS RPG) tự do xây dựng nhân vật",
-          "Người sở hữu dàn PC cấu hình trung bình - khá trở lên"
-        ],
-        notSuitableFor: [
-          "Game thủ tìm kiếm game multiplayer/co-op trực tuyến",
-          "Máy tính chỉ có ổ cứng HDD truyền thống (rất lag)",
-          "Người không thích game góc nhìn thứ nhất"
-        ],
-        verdict: "Cyberpunk 2077 hiện tại sau bản cập nhật 2.0 và DLC Phantom Liberty đã trở thành một kiệt tác RPG thế giới mở hoàn chỉnh. Rất đáng đồng tiền bát gạo!",
-        buyRecommendation: "MUST BUY", // MUST BUY, RECOMMENDED, WAIT FOR SALE, NOT RECOMMENDED
-        screenshots: [
-          "https://cdn.akamai.steamstatic.com/steam/apps/1091500/ss_72332c0211ec1899144d187ed23b9d885a082b20.1920x1080.jpg",
-          "https://cdn.akamai.steamstatic.com/steam/apps/1091500/ss_ee1e1f137e3e9d89230a1749557f9ed30ec2b2b1.1920x1080.jpg",
-          "https://cdn.akamai.steamstatic.com/steam/apps/1091500/ss_69e4f51e06d9972322a3f7fbc417534c06b23a9d.1920x1080.jpg"
-        ],
-        trailerUrl: "https://www.youtube.com/embed/UnA7tepsc7s",
-        storeUrls: {
-          steam: "https://store.steampowered.com/app/1091500/Cyberpunk_2077/",
-          epic: "https://store.epicgames.com/p/cyberpunk-2077"
-        },
-        lastUpdated: "2026-08-19 10:30"
-      },
-      {
-        id: "1245620",
-        steamAppId: "1245620",
-        epicSlug: "elden-ring",
-        name: "Elden Ring",
-        fullTitle: "ELDEN RING: Shadow of the Erdtree",
-        coverImage: "https://cdn.akamai.steamstatic.com/steam/apps/1245620/header.jpg",
-        backgroundImage: "https://cdn.akamai.steamstatic.com/steam/apps/1245620/page_bg_generated_v6b.jpg",
-        developer: "FromSoftware, Inc.",
-        publisher: "Bandai Namco Entertainment",
-        releaseDate: "25/02/2022",
-        status: "Released",
-        ageRating: "16+",
-        platforms: { windows: true, macos: false, linux: true, console: true },
-        genres: ["Action", "RPG", "Souls-like", "Open World", "Dark Fantasy"],
-        tags: ["Souls-like", "Dark Fantasy", "Open World", "RPG", "Difficult", "Co-op"],
-        steamPrice: { original: 1290000, current: 1290000, discount: 0, currency: "VND", isFree: false },
-        epicPrice: { original: 1290000, current: 903000, discount: 30, currency: "VND", isFree: false },
-        playerModes: {
-          singleplayer: true,
-          multiplayer: true,
-          coop: true,
-          pvp: true,
-          pve: true,
-          maxPlayers: 4,
-          controllerSupport: "Full"
-        },
-        story: {
-          officialSummary: "TRỞ THÀNH ELDEN LORD TRONG LANDS BETWEEN. Nhẫn Elden đã bị đập vỡ. Nguồn sống Erdtree suy yếu. Các bán thần mang dòng máu Queen Marika tranh giành mảnh vỡ Great Runes dẫn đến cuộc chiến The Shattering.",
-          analystAnalysis: "Hợp tác giữa Hidetaka Miyazaki và nhà văn George R.R. Martin mang lại thế giới thần thoại u tối huyền bí bậc nhất. Truyền thuyết sâu sắc ẩn giấu qua từng món đồ và hội thoại nhân vật.",
-          spoilerWarning: "Radagon và Marika thực chất là hai thể diện trong cùng một thực thể thần thánh cai trị Lands Between."
-        },
-        gameplay: {
-          combat: 10,
-          exploration: 10,
-          characterProgression: 10,
-          loot: 9,
-          crafting: 8,
-          stealth: 7,
-          shooting: 4,
-          difficulty: "Hard",
-          replayability: "Extremely High",
-          overviewText: "Đỉnh cao thiết kế thế giới mở và chiến đấu Souls-like. Hàng trăm loại vũ khí, phép thuật, Linh Hồn Triệu Hồi (Spirit Ashes) giúp bạn xây dựng hướng đi độc nhất."
-        },
-        systemRequirements: {
-          minimum: {
-            os: "Windows 10 64-bit",
-            cpu: "Intel Core i5-8400 hoặc AMD Ryzen 3 3300X",
-            ram: "12 GB RAM",
-            gpu: "NVIDIA GeForce GTX 1060 3GB hoặc AMD Radeon RX 580 4GB",
-            directx: "Version 12",
-            storage: "60 GB HDD/SSD",
-            notes: "Low Settings 1080p @ 30-45 FPS"
-          },
-          recommended: {
-            os: "Windows 10/11 64-bit",
-            cpu: "Intel Core i7-8700K hoặc AMD Ryzen 5 3600X",
-            ram: "16 GB RAM",
-            gpu: "NVIDIA GeForce GTX 1070 8GB hoặc AMD Radeon RX Vega 56",
-            directx: "Version 12",
-            storage: "60 GB SSD",
-            notes: "High Settings 1080p @ 60 FPS"
-          }
-        },
-        ratings: {
-          graphics: 9.0,
-          audio: 9.5,
-          gameplay: 10.0,
-          story: 9.2,
-          performance: 8.5,
-          replayability: 9.8,
-          value: 9.8
-        },
-        pros: [
-          "Thế giới mở Lands Between thiết kế tuyệt diệu, khám phá không bao giờ chán",
-          "Cơ chế combat Souls-like hoàn thiện nhất lịch sử game",
-          "Hàng trăm Boss chiến tráng lệ và thử thách tột cùng",
-          "Giá trị chơi lại siêu cao với hàng chục hướng build nhân vật khác nhau"
-        ],
-        cons: [
-          "Độ khó cao có thể gây nản lòng cho người mới tập chơi",
-          "Cơ chế hướng dẫn nhiệm vụ ít thông tin (cần tự mày mò)"
-        ],
-        suitableFor: [
-          "Game thủ thích thử thách khó, kiên nhẫn vượt qua thất bại",
-          "Tín đồ thể loại RPG thế giới mở và Dark Fantasy",
-          "Người thích khám phá bí ẩn không cần chỉ đường dắt tay"
-        ],
-        notSuitableFor: [
-          "Người chơi dễ ức chế khi chết nhiều lần",
-          "Game thủ thích cốt truyện thẳng tuột và nhiệm vụ đánh dấu rõ ràng trên bản đồ"
-        ],
-        verdict: "Elden Ring là Game of the Year hoàn toàn xứng đáng. Một siêu phẩm bắt buộc phải thử qua đối với mọi gamer chân chính!",
-        buyRecommendation: "MUST BUY",
-        screenshots: [
-          "https://cdn.akamai.steamstatic.com/steam/apps/1245620/ss_406b2a0fb20e6f2ec5510f8edeb8aa4b39b56f8f.1920x1080.jpg",
-          "https://cdn.akamai.steamstatic.com/steam/apps/1245620/ss_8d7120e2ef72ec561848ff4b9f2c3d0b30ef4800.1920x1080.jpg"
-        ],
-        trailerUrl: "https://www.youtube.com/embed/E3Huy2cdih0",
-        storeUrls: {
-          steam: "https://store.steampowered.com/app/1245620/ELDEN_RING/",
-          epic: "https://store.epicgames.com/p/elden-ring"
-        },
-        lastUpdated: "2026-08-19 11:00"
-      },
-      {
-        id: "2358720",
-        steamAppId: "2358720",
-        epicSlug: "black-myth-wukong",
-        name: "Black Myth: Wukong",
-        fullTitle: "Black Myth: Wukong (Tây Du Ký: Ngộ Không)",
-        coverImage: "https://cdn.akamai.steamstatic.com/steam/apps/2358720/header.jpg",
-        backgroundImage: "https://cdn.akamai.steamstatic.com/steam/apps/2358720/page_bg_generated_v6b.jpg",
-        developer: "Game Science",
-        publisher: "Game Science",
-        releaseDate: "20/08/2024",
-        status: "Released",
-        ageRating: "16+",
-        platforms: { windows: true, macos: false, linux: false, console: true },
-        genres: ["Action", "RPG", "Mythology", "Hack and Slash"],
-        tags: ["Action", "RPG", "Mythology", "Great Soundtrack", "Singleplayer", "Souls-like"],
-        steamPrice: { original: 1299000, current: 1299000, discount: 0, currency: "VND", isFree: false },
-        epicPrice: { original: 1299000, current: 1299000, discount: 0, currency: "VND", isFree: false },
-        playerModes: {
-          singleplayer: true,
-          multiplayer: false,
-          coop: false,
-          pvp: false,
-          pve: true,
-          maxPlayers: 1,
-          controllerSupport: "Full"
-        },
-        story: {
-          officialSummary: "Black Myth: Wukong là một game hành động nhập vai lấy cảm hứng từ Tây Du Ký - một trong Bốn Kiệt Tác Văn Học Trung Hoa. Bạn sẽ vào vai Mệnh Không Nhân (Destined One) dấn thân vào hành trình vượt qua muôn vàn thử thách để tìm lại di vật Tôn Ngộ Không.",
-          analystAnalysis: "Khai thác sâu sắc thần thoại Tây Du Ký dưới góc nhìn u ám, góc khuất thần tiên ma quỷ. Lời thoại giàu chất thơ cổ điển, câu chuyện cảm động và triết lý tâm linh sâu sắc.",
-          spoilerWarning: "Tôn Ngộ Không thực ra đã tự sát để thoát khỏi chiếc Vòng Kim Cô kiểm soát của Thiên Đình."
-        },
-        gameplay: {
-          combat: 9.5,
-          exploration: 8.0,
-          characterProgression: 9.0,
-          loot: 8.0,
-          crafting: 8.5,
-          stealth: 5.0,
-          shooting: 2.0,
-          difficulty: "Hard",
-          replayability: "High",
-          overviewText: "Combat uyển chuyển với 3 thế Gậy (Thủ Thế, Tích Thế, Trụ Thế), 72 phép biến hóa thần thông, Định Thân Thuật, Phân Thân và biến hình thành các Yêu Quái đã thu phục."
-        },
-        systemRequirements: {
-          minimum: {
-            os: "Windows 10 64-bit",
-            cpu: "Intel Core i5-8400 hoặc AMD Ryzen 5 1600",
-            ram: "16 GB RAM",
-            gpu: "NVIDIA GeForce GTX 1060 6GB hoặc AMD Radeon RX 580 8GB",
-            directx: "Version 12",
-            storage: "130 GB SSD",
-            notes: "Thiết lập Low 1080p @ 30 FPS (TNSD/DLSS/FSR)"
-          },
-          recommended: {
-            os: "Windows 10/11 64-bit",
-            cpu: "Intel Core i7-10700K hoặc AMD Ryzen 5 5600X",
-            ram: "16 GB RAM",
-            gpu: "NVIDIA GeForce RTX 3060 8GB hoặc AMD Radeon RX 6600 XT",
-            directx: "Version 12",
-            storage: "130 GB NVMe SSD",
-            notes: "Thiết lập Medium/High 1080p @ 60 FPS"
-          }
-        },
-        ratings: {
-          graphics: 9.8,
-          audio: 9.5,
-          gameplay: 9.2,
-          story: 9.0,
-          performance: 8.0,
-          replayability: 8.5,
-          value: 9.0
-        },
-        pros: [
-          "Đồ họa Unreal Engine 5 rực rỡ, hiệu ứng phép thuật chói lọi",
-          "Hệ thống phép thuật và múa gậy Như Ý biến hóa cực kỳ hoành tráng",
-          "Thiết kế Yêu quái và thần thoại Trung Hoa sống động xuất sắc",
-          "Âm nhạc dân gian phối khí hiện đại đỉnh cao"
-        ],
-        cons: [
-          "Bản đồ có một số bức tường vô hình gây tụt hứng khám phá",
-          "Yêu cầu phần cứng khá cao để trải nghiệm trọn vẹn Unreal Engine 5"
-        ],
-        suitableFor: [
-          "Fan cuồng Tây Du Ký, Tôn Ngộ Không và Thần thoại Á Đông",
-          "Game thủ thích game hành động chặt chém nhanh (Hack & Slash)",
-          "Sở hữu PC đời mới hỗ trợ DLSS/FSR"
-        ],
-        notSuitableFor: [
-          "Máy tính yếu chỉ dùng card đồ họa onboard hoặc card đời cũ",
-          "Game thủ kỳ vọng một game thế giới mở tự do hoàn toàn như GTA/Elden Ring"
-        ],
-        verdict: "Tên tuổi vươn tầm thế giới của Game Science. Trải nghiệm chiến đấu mãn nhãn và đồ họa không thể bỏ lỡ!",
-        buyRecommendation: "MUST BUY",
-        screenshots: [
-          "https://cdn.akamai.steamstatic.com/steam/apps/2358720/ss_2b724f8d48a04fb6b4f72fa13e00a3597d519b78.1920x1080.jpg",
-          "https://cdn.akamai.steamstatic.com/steam/apps/2358720/ss_846bc0b9858f967bd5996f01198f3c7e7ddccbb2.1920x1080.jpg"
-        ],
-        trailerUrl: "https://www.youtube.com/embed/pS9xN_1I9qE",
-        storeUrls: {
-          steam: "https://store.steampowered.com/app/2358720/Black_Myth_Wukong/",
-          epic: "https://store.epicgames.com/p/black-myth-wukong"
-        },
-        lastUpdated: "2026-08-19 09:15"
-      }
-    ];
-
-    /* ==========================================================================
-       2. HELPER UTILITIES
-       ========================================================================== */
-    const formatPrice = (amount, currency = "VND") => {
-      if (!amount || amount === 0) return "Miễn phí (Free)";
-      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-    };
-
-    const parseInputUrlOrName = (input) => {
-      const cleanInput = input.trim();
-      if (!cleanInput) return { type: "UNKNOWN", query: "" };
-
-      // Steam App URL check
-      const steamMatch = cleanInput.match(/store\.steampowered\.com\/app\/(\d+)/i);
-      if (steamMatch) {
-        return { type: "STEAM_URL", appId: steamMatch[1], query: steamMatch[1] };
-      }
-
-      // Epic Games Store URL check
-      const epicMatch = cleanInput.match(/epicgames\.com\/(?:[^\/]+\/)?p\/([a-zA-C0-9\-]+)/i);
-      if (epicMatch) {
-        return { type: "EPIC_URL", slug: epicMatch[1], query: epicMatch[1] };
-      }
-
-      return { type: "NAME", query: cleanInput };
-    };
-
-    /* Weight formula for Overall Game Score */
-    const calculateOverallScore = (ratings) => {
-      if (!ratings) return 0;
-      const { gameplay = 0, story = 0, graphics = 0, audio = 0, performance = 0, replayability = 0, value = 0 } = ratings;
-      const score = (gameplay * 0.20) + (story * 0.15) + (graphics * 0.10) + (audio * 0.10) + (performance * 0.15) + (replayability * 0.10) + (value * 0.20);
-      return Math.min(10, Math.max(0, score)).toFixed(1);
-    };
-
-    /* Benchmark Estimator Hardware Database */
-    const HARDWARE_TIERS = {
-      cpu: {
-        high: ["i7-13700", "i9", "7800x3d", "ryzen 9", "ryzen 7 7700", "i7-12700"],
-        medium: ["i5-12400", "i5-11400", "ryzen 5 5600", "ryzen 5 3600", "i7-10700", "i5-10400"],
-        low: ["i3", "ryzen 3", "i5-8400", "fx", "pentium"]
-      },
-      gpu: {
-        ultra: ["4090", "4080", "7900 xtx", "4070 ti", "3090", "7900 xt"],
-        high: ["4070", "3080", "3070", "6800 xt", "7800 xt", "4060 ti"],
-        medium: ["3060", "2060", "6600", "1660 super", "4060", "3050", "rx 580", "gtx 1070"],
-        low: ["gtx 1060", "gtx 1050", "gtx 970", "rx 570", "uhd graphics", "vega"]
-      }
-    };
-
-    const estimatePerformance = (userSpecs, gameMinSpecs, gameRecSpecs) => {
-      if (!userSpecs || !userSpecs.gpu || !userSpecs.ram) {
-        return { level: "UNKNOWN", text: "Vui lòng nhập cấu hình PC để phân tích.", color: "text-slate-400", fps1080p: "--", fps1440p: "--", fps4k: "--" };
-      }
-
-      const ramGbs = parseInt(userSpecs.ram) || 8;
-      const gpuText = (userSpecs.gpu || "").toLowerCase();
-      const cpuText = (userSpecs.cpu || "").toLowerCase();
-
-      let gpuScore = 2; // 1: low, 2: med, 3: high, 4: ultra
-      if (HARDWARE_TIERS.gpu.ultra.some(g => gpuText.includes(g))) gpuScore = 4;
-      else if (HARDWARE_TIERS.gpu.high.some(g => gpuText.includes(g))) gpuScore = 3;
-      else if (HARDWARE_TIERS.gpu.medium.some(g => gpuText.includes(g))) gpuScore = 2;
-      else if (HARDWARE_TIERS.gpu.low.some(g => gpuText.includes(g))) gpuScore = 1;
-
-      let level = "GOOD";
-      let statusText = "🟢 Tốt - Vận hành mượt mà ở độ phân giải 1080p/1440p";
-      let color = "text-emerald-400";
-      let fps1080p = "60+ FPS";
-      let fps1440p = "45-60 FPS";
-      let fps4k = "30 FPS";
-
-      if (gpuScore >= 4 && ramGbs >= 16) {
-        level = "EXCELLENT";
-        statusText = "🟢 Tuyệt vời - Chiến mượt Ultra Settings 4K Ray-Tracing";
-        color = "text-emerald-400";
-        fps1080p = "120+ FPS";
-        fps1440p = "90+ FPS";
-        fps4k = "60+ FPS";
-      } else if (gpuScore === 2 || ramGbs === 8) {
-        level = "MEDIUM";
-        statusText = "🟡 Có thể chơi tốt - Khuyên dùng thiết lập Medium 1080p";
-        color = "text-amber-400";
-        fps1080p = "45-60 FPS";
-        fps1440p = "30 FPS";
-        fps4k = "<20 FPS (Không khuyến nghị)";
-      } else if (gpuScore === 1 || ramGbs < 8) {
-        level = "LOW";
-        statusText = "🟠 Cần giảm setting xuống Low - Có thể tụt FPS khi giao tranh nặng";
-        color = "text-orange-400";
-        fps1080p = "30-40 FPS";
-        fps1440p = "<25 FPS";
-        fps4k = "Unplayable";
-      }
-
-      return { level, text: statusText, color, fps1080p, fps1440p, fps4k };
-    };
-
-    /* ==========================================================================
-       3. REACT MAIN APP COMPONENT
-       ========================================================================== */
-    function App() {
-      const [searchQuery, setSearchQuery] = useState("");
-      const [activeGame, setActiveGame] = useState(PRESET_GAMES_DATABASE[0]);
-      const [isLoading, setIsLoading] = useState(false);
-      const [errorMsg, setErrorMsg] = useState("");
-      const [searchResults, setSearchResults] = useState([]);
-      const [showSearchResults, setShowSearchResults] = useState(false);
-
-      // System Specs State
-      const [userSpecs, setUserSpecs] = useState({
-        cpu: "Core i5-12400F",
-        gpu: "RTX 3060 12GB",
-        ram: "16",
-        storage: "SSD",
-        os: "Windows 11 64-bit"
-      });
-
-      // User Preferences State
-      const [favorites, setFavorites] = useState(() => {
-        try {
-          return JSON.parse(localStorage.getItem("gah_favorites") || "[]");
-        } catch { return []; }
-      });
-
-      const [searchHistory, setSearchHistory] = useState(() => {
-        try {
-          return JSON.parse(localStorage.getItem("gah_history") || "[]");
-        } catch { return []; }
-      });
-
-      const [activeTab, setActiveTab] = useState("ANALYST"); // ANALYST, DISCOVER, FAVS, HISTORY
-      const [showSpoiler, setShowSpoiler] = useState(false);
-      const [showModalMsg, setShowModalMsg] = useState(null);
-
-      // Save to localstorage
-      useEffect(() => {
-        localStorage.setItem("gah_favorites", JSON.stringify(favorites));
-      }, [favorites]);
-
-      useEffect(() => {
-        localStorage.setItem("gah_history", JSON.stringify(searchHistory));
-      }, [searchHistory]);
-
-      const handleSearch = (e) => {
-        if (e) e.preventDefault();
-        if (!searchQuery.trim()) return;
-
-        setIsLoading(true);
-        setErrorMsg("");
-        setShowSearchResults(false);
-
-        const parsed = parseInputUrlOrName(searchQuery);
-
-        setTimeout(() => {
-          let matched = null;
-
-          if (parsed.type === "STEAM_URL") {
-            matched = PRESET_GAMES_DATABASE.find(g => g.steamAppId === parsed.appId);
-          } else if (parsed.type === "EPIC_URL") {
-            matched = PRESET_GAMES_DATABASE.find(g => g.epicSlug === parsed.slug);
-          } else {
-            // Search by Name
-            const q = parsed.query.toLowerCase();
-            const matches = PRESET_GAMES_DATABASE.filter(g => 
-              g.name.toLowerCase().includes(q) || 
-              g.fullTitle.toLowerCase().includes(q) ||
-              g.genres.some(genre => genre.toLowerCase().includes(q))
-            );
-
-            if (matches.length === 1) {
-              matched = matches[0];
-            } else if (matches.length > 1) {
-              setSearchResults(matches);
-              setShowSearchResults(true);
-              setIsLoading(false);
-              return;
-            }
-          }
-
-          if (matched) {
-            setActiveGame(matched);
-            setActiveTab("ANALYST");
-            addToHistory(matched);
-          } else {
-            // Create dynamic fall-back search object if game isn't in database
-            const dynamicGame = createDynamicGameData(parsed.query);
-            setActiveGame(dynamicGame);
-            setActiveTab("ANALYST");
-            addToHistory(dynamicGame);
-          }
-
-          setIsLoading(false);
-        }, 600);
-      };
-
-      const createDynamicGameData = (name) => {
-        return {
-          id: Date.now().toString(),
-          steamAppId: "999999",
-          epicSlug: name.toLowerCase().replace(/\s+/g, '-'),
-          name: name,
-          fullTitle: `${name} (Dữ liệu Live Store)`,
-          coverImage: "https://placehold.co/600x350/1e293b/38bdf8?text=" + encodeURIComponent(name),
-          backgroundImage: "https://placehold.co/1920x1080/0f172a/1e293b?text=" + encodeURIComponent(name),
-          developer: "Chưa cập nhật",
-          publisher: "Chưa cập nhật",
-          releaseDate: "2024-2026",
-          status: "Released",
-          ageRating: "16+",
-          platforms: { windows: true, macos: false, linux: false, console: true },
-          genres: ["Action", "Adventure"],
-          tags: ["Action", "Singleplayer"],
-          steamPrice: { original: 750000, current: 750000, discount: 0, currency: "VND", isFree: false },
-          epicPrice: { original: 750000, current: 750000, discount: 0, currency: "VND", isFree: false },
-          playerModes: { singleplayer: true, multiplayer: false, coop: false, pvp: false, pve: true, maxPlayers: 1, controllerSupport: "Full" },
-          story: {
-            officialSummary: `Tóm tắt chính thức cho ${name} đang được truy xuất trực tiếp từ máy chủ Steam / Epic Games.`,
-            analystAnalysis: `Phân tích AI: ${name} hứa hẹn mang tới trải nghiệm lối chơi mượt mà độc đáo.`,
-            spoilerWarning: "Chưa có thông tin spoiler cho tựa game này."
-          },
-          gameplay: { combat: 8, exploration: 8, characterProgression: 8, loot: 7, crafting: 7, stealth: 6, shooting: 7, difficulty: "Medium", replayability: "Medium", overviewText: "Lối chơi kết hợp nhiều yếu tố hành động hấp dẫn." },
-          systemRequirements: {
-            minimum: { os: "Windows 10 64-bit", cpu: "Intel Core i5-8400", ram: "8 GB RAM", gpu: "GTX 1060 6GB", directx: "Version 12", storage: "50 GB SSD", notes: "1080p Low" },
-            recommended: { os: "Windows 10/11 64-bit", cpu: "Intel Core i7-10700K", ram: "16 GB RAM", gpu: "RTX 3060 12GB", directx: "Version 12", storage: "50 GB SSD", notes: "1080p High" }
-          },
-          ratings: { graphics: 8.0, audio: 8.0, gameplay: 8.0, story: 7.5, performance: 8.0, replayability: 7.5, value: 8.0 },
-          pros: ["Đồ họa ấn tượng", "Cốt truyện hấp dẫn", "Tối ưu hóa khá tốt"],
-          cons: ["Giá thành còn cao", "Cần có cấu hình PC tầm trung trở lên"],
-          suitableFor: ["Game thủ yêu thích thể loại Action/RPG"],
-          notSuitableFor: ["Máy tính cấu hình quá yếu"],
-          verdict: `Tựa game ${name} đáng để cân nhắc nếu bạn là fan của thể loại này.`,
-          buyRecommendation: "RECOMMENDED",
-          screenshots: ["https://placehold.co/1280x720/1e293b/ffffff?text=Screenshot+1"],
-          trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-          storeUrls: { steam: `https://store.steampowered.com/search/?term=${encodeURIComponent(name)}`, epic: `https://store.epicgames.com/en-US/browse?q=${encodeURIComponent(name)}` },
-          lastUpdated: new Date().toLocaleString('vi-VN')
-        };
-      };
-
-      const addToHistory = (game) => {
-        setSearchHistory(prev => {
-          const filtered = prev.filter(item => item.id !== game.id);
-          return [{ id: game.id, name: game.name, cover: game.coverImage, date: new Date().toLocaleTimeString('vi-VN') }, ...filtered].slice(0, 10);
-        });
-      };
-
-      const toggleFavorite = (game) => {
-        if (favorites.some(f => f.id === game.id)) {
-          setFavorites(favorites.filter(f => f.id !== game.id));
-          setShowModalMsg("Đã xóa khỏi danh sách Yêu Thích!");
-        } else {
-          setFavorites([...favorites, { id: game.id, name: game.name, cover: game.coverImage, rating: calculateOverallScore(game.ratings) }]);
-          setShowModalMsg("Đã thêm vào danh sách Yêu Thích!");
-        }
-      };
-
-      const copyShareLink = () => {
-        const url = window.location.href;
-        document.execCommand && document.execCommand('copy');
-        setShowModalMsg("Đã sao chép liên kết chia sẻ trang phân tích!");
-      };
-
-      const performanceEval = useMemo(() => {
-        return estimatePerformance(userSpecs, activeGame.systemRequirements.minimum, activeGame.systemRequirements.recommended);
-      }, [userSpecs, activeGame]);
-
-      const overallScore = useMemo(() => calculateOverallScore(activeGame.ratings), [activeGame]);
-
-      return (
-        <div className="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100">
-          
-          {/* TOP NOTICE & HEADER */}
-          <header className="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-              
-              {/* BRAND LOGO */}
-              <div 
-                className="flex items-center gap-3 cursor-pointer group"
-                onClick={() => { setActiveTab("ANALYST"); }}
-              >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-emerald-400 p-0.5 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
-                  <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                    <i className="fa-solid fa-gamepad text-2xl text-cyan-400"></i>
-                  </div>
-                </div>
-                <div>
-                  <h1 className="font-black text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-emerald-400">
-                    GAME ANALYST HUB
-                  </h1>
-                  <p className="text-[10px] font-semibold tracking-widest text-slate-400 uppercase">
-                    TRUNG HẬU • GAME DATA ENGINE
-                  </p>
-                </div>
-              </div>
-
-              {/* NAVIGATION TABS */}
-              <nav className="hidden md:flex items-center gap-1 bg-slate-900/80 p-1.5 rounded-xl border border-slate-800">
-                <button
-                  onClick={() => setActiveTab("ANALYST")}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${activeTab === 'ANALYST' ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'}`}
-                >
-                  <i className="fa-solid fa-chart-line"></i> Phân Tích Game
-                </button>
-                <button
-                  onClick={() => setActiveTab("DISCOVER")}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${activeTab === 'DISCOVER' ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'}`}
-                >
-                  <i className="fa-solid fa-compass"></i> Khám Phá Game
-                </button>
-                <button
-                  onClick={() => setActiveTab("FAVS")}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${activeTab === 'FAVS' ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'}`}
-                >
-                  <i className="fa-solid fa-heart text-red-400"></i> Yêu Thích ({favorites.length})
-                </button>
-                <button
-                  onClick={() => setActiveTab("HISTORY")}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-2 ${activeTab === 'HISTORY' ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'}`}
-                >
-                  <i className="fa-solid fa-clock-rotate-left"></i> Lịch Sử
-                </button>
-              </nav>
-
-              {/* CREATOR AUTHOR CREDIT BADGE */}
-              <div className="flex items-center gap-3">
-                <div className="hidden lg:flex flex-col items-end">
-                  <span className="text-[11px] text-slate-400 font-medium">Created & Developed by</span>
-                  <span className="text-xs font-bold text-cyan-400 flex items-center gap-1">
-                    <i className="fa-solid fa-code text-[10px]"></i> Trung Hậu
-                  </span>
-                </div>
-              </div>
-
-            </div>
-          </header>
-
-          <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            
-            {/* HERO SEARCH BAR SECTION */}
-            <section className="mb-10 text-center relative">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-800/50 text-cyan-400 text-xs font-medium mb-4">
-                <i className="fa-solid fa-bolt text-amber-400"></i> Hệ thống Tra cứu & Phân tích Game Trực Tuyến 2026
-              </div>
-              <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight max-w-3xl mx-auto leading-tight mb-3">
-                Phân Tích Game. So Sánh Giá. Kiểm Tra Cấu Hình.
-              </h2>
-              <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto mb-8">
-                Nhập tên game hoặc dán đường dẫn <span className="text-cyan-400 font-semibold">Steam Store</span> / <span className="text-blue-400 font-semibold">Epic Games Store</span> để nhận báo cáo phân tích chuyên sâu.
-              </p>
-
-              {/* SEARCH INPUT BOX */}
-              <form onSubmit={handleSearch} className="max-w-3xl mx-auto relative">
-                <div className="relative flex items-center rounded-2xl p-2 bg-slate-900 border-2 border-slate-800 focus-within:border-cyan-500 shadow-2xl transition-all">
-                  <i className="fa-solid fa-magnifying-glass text-slate-400 text-lg ml-4 mr-2"></i>
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Nhập tên game (ví dụ: Cyberpunk 2077) hoặc dán link Steam / Epic Games Store..."
-                    className="w-full bg-transparent text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none pr-32"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className="absolute right-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs sm:text-sm tracking-wide shadow-lg transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
-                  >
-                    {isLoading ? (
-                      <>
-                        <i className="fa-solid fa-circle-notch animate-spin"></i> Đang Phân Tích...
-                      </>
-                    ) : (
-                      <>
-                        🔍 PHÂN TÍCH GAME
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {/* SEARCH RESULTS SUGGESTION MODAL */}
-                {showSearchResults && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 text-left overflow-hidden">
-                    <div className="p-3 bg-slate-800/80 text-xs text-slate-400 font-bold border-b border-slate-700 flex justify-between">
-                      <span>CÓ PHẢI BẠN MUỐN TÌM:</span>
-                      <button onClick={() => setShowSearchResults(false)} className="text-slate-400 hover:text-white">✕</button>
-                    </div>
-                    <div className="max-h-64 overflow-y-auto divide-y divide-slate-800">
-                      {searchResults.map(game => (
-                        <div
-                          key={game.id}
-                          onClick={() => {
-                            setActiveGame(game);
-                            setActiveTab("ANALYST");
-                            setShowSearchResults(false);
-                            addToHistory(game);
-                          }}
-                          className="p-3 hover:bg-slate-800 flex items-center gap-3 cursor-pointer transition-colors"
-                        >
-                          <img src={game.coverImage} className="w-16 h-10 object-cover rounded" alt={game.name} />
-                          <div>
-                            <p className="font-bold text-sm text-white">{game.name}</p>
-                            <p className="text-xs text-slate-400">{game.genres.join(", ")} • {game.developer}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </form>
-
-              {/* QUICK SUGGESTIONS */}
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400">
-                <span className="font-semibold text-slate-500">Gợi ý nhanh:</span>
-                {PRESET_GAMES_DATABASE.map(g => (
-                  <button
-                    key={g.id}
-                    onClick={() => {
-                      setActiveGame(g);
-                      setActiveTab("ANALYST");
-                      addToHistory(g);
-                    }}
-                    className="px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 hover:border-cyan-500 hover:text-cyan-400 transition-colors"
-                  >
-                    {g.name}
-                  </button>
-                ))}
-              </div>
-            </section>
-
-            {/* TAB CONTENTS */}
-            {activeTab === "ANALYST" && (
-              <section className="space-y-8 animate-fadeIn">
-                
-                {/* 1. MAIN OVERVIEW BANNER CARD */}
-                <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
-                  {/* Background Backdrop Blur */}
-                  <div className="absolute inset-0 z-0">
-                    <img src={activeGame.backgroundImage} className="w-full h-full object-cover opacity-20 blur-md scale-105" alt="" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent"></div>
-                  </div>
-
-                  <div className="relative z-10 p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-                    
-                    {/* COVER POSTER */}
-                    <div className="md:col-span-4 lg:col-span-3 space-y-4">
-                      <div className="rounded-2xl overflow-hidden border-2 border-slate-700/60 shadow-2xl relative group">
-                        <img src={activeGame.coverImage} className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300" alt={activeGame.name} />
-                        <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wider text-cyan-400 border border-cyan-800/50">
-                          {activeGame.status}
-                        </div>
-                      </div>
-
-                      {/* FAVORITE & SHARE BUTTONS */}
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => toggleFavorite(activeGame)}
-                          className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 border ${favorites.some(f => f.id === activeGame.id) ? 'bg-red-500/20 text-red-400 border-red-500/40' : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border-slate-700'}`}
-                        >
-                          <i className="fa-solid fa-heart"></i>
-                          {favorites.some(f => f.id === activeGame.id) ? 'Đã Yêu Thích' : 'Lưu Yêu Thích'}
-                        </button>
-                        <button
-                          onClick={copyShareLink}
-                          className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-bold transition-all"
-                          title="Chia sẻ link"
-                        >
-                          <i className="fa-solid fa-share-nodes"></i>
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* MAIN INFO DETAILS */}
-                    <div className="md:col-span-8 lg:col-span-9 space-y-5">
-                      
-                      {/* BADGES & CONFIDENCE LEVEL */}
-                      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-4">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-bold flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Dữ liệu store chính thức
-                          </span>
-                          <span className="px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-[11px] font-bold">
-                            🤖 AI Analyst Generated
-                          </span>
-                        </div>
-                        <span className="text-xs text-slate-400">
-                          Cập nhật: {activeGame.lastUpdated}
-                        </span>
-                      </div>
-
-                      {/* TITLE & METADATA */}
-                      <div>
-                        <h2 className="text-2xl sm:text-4xl font-black text-white leading-tight mb-2">
-                          {activeGame.fullTitle}
-                        </h2>
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400">
-                          <span><strong className="text-slate-300">Nhà phát triển:</strong> {activeGame.developer}</span>
-                          <span>•</span>
-                          <span><strong className="text-slate-300">Nhà phát hành:</strong> {activeGame.publisher}</span>
-                          <span>•</span>
-                          <span><strong className="text-slate-300">Ngày ra mắt:</strong> {activeGame.releaseDate}</span>
-                        </div>
-                      </div>
-
-                      {/* GENRES & TAGS */}
-                      <div className="flex flex-wrap gap-1.5">
-                        {activeGame.genres.map((g, idx) => (
-                          <span key={idx} className="px-3 py-1 rounded-lg bg-blue-950/60 border border-blue-800/40 text-blue-300 text-xs font-semibold">
-                            🎮 {g}
-                          </span>
-                        ))}
-                        {activeGame.tags.map((t, idx) => (
-                          <span key={idx} className="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-400 text-[11px]">
-                            #{t}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* QUICK BUY RECOMMENDATION BANNER */}
-                      <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-700/60 flex flex-wrap items-center justify-between gap-4">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-black ${
-                            activeGame.buyRecommendation === 'MUST BUY' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' :
-                            activeGame.buyRecommendation === 'RECOMMENDED' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/40' :
-                            'bg-amber-500/20 text-amber-400 border border-amber-500/40'
-                          }`}>
-                            <i className="fa-solid fa-cart-shopping"></i>
-                          </div>
-                          <div>
-                            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">ĐÁNH GIÁ MUA GAME</p>
-                            <p className="text-lg font-black text-white flex items-center gap-2">
-                              💰 SHOULD YOU BUY: 
-                              <span className={activeGame.buyRecommendation === 'MUST BUY' ? 'text-emerald-400' : 'text-blue-400'}>
-                                {activeGame.buyRecommendation}
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                          <div className="text-right">
-                            <p className="text-[10px] text-slate-400 uppercase font-bold">GAME ANALYST SCORE</p>
-                            <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">
-                              {overallScore} <span className="text-xs text-slate-500">/ 10</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </div>
-                </div>
-
-                {/* 2. STEAM VS EPIC STORE PRICE COMPARISON */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  
-                  {/* STEAM STORE CARD */}
-                  <div className="glass-card rounded-2xl p-6 border-l-4 border-l-cyan-400 relative overflow-hidden">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex items-center gap-3">
-                        <i className="fa-brands fa-steam text-3xl text-cyan-400"></i>
-                        <div>
-                          <h3 className="font-bold text-lg text-white">STEAM STORE</h3>
-                          <p className="text-xs text-slate-400">Giá cửa hàng chính thức</p>
-                        </div>
-                      </div>
-                      {activeGame.steamPrice.discount > 0 && (
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-500 text-slate-950 font-black text-xs">
-                          -{activeGame.steamPrice.discount}%
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="my-4">
-                      {activeGame.steamPrice.discount > 0 ? (
-                        <div className="flex items-baseline gap-3">
-                          <span className="text-2xl font-black text-emerald-400">
-                            {formatPrice(activeGame.steamPrice.current)}
-                          </span>
-                          <span className="text-sm text-slate-500 line-through">
-                            {formatPrice(activeGame.steamPrice.original)}
-                          </span>
-                        </div>
-                      ) : (
-                        <span className="text-2xl font-black text-white">
-                          {formatPrice(activeGame.steamPrice.current)}
-                        </span>
-                      )}
-                    </div>
-
-                    <a
-                      href={activeGame.storeUrls.steam}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-2.5 rounded-xl bg-cyan-950 hover:bg-cyan-900 border border-cyan-800 text-cyan-300 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
-                    >
-                      🛒 VIEW ON STEAM STORE <i className="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                    </a>
-                  </div>
-
-                  {/* EPIC GAMES STORE CARD */}
-                  <div className="glass-card rounded-2xl p-6 border-l-4 border-l-blue-500 relative overflow-hidden">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex items-center gap-3">
-                        <i className="fa-solid fa-cube text-3xl text-blue-500"></i>
-                        <div>
-                          <h3 className="font-bold text-lg text-white">EPIC GAMES STORE</h3>
-                          <p className="text-xs text-slate-400">Giá cửa hàng chính thức</p>
-                        </div>
-                      </div>
-                      {activeGame.epicPrice.discount > 0 && (
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-500 text-slate-950 font-black text-xs">
-                          -{activeGame.epicPrice.discount}%
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="my-4">
-                      {activeGame.epicPrice.discount > 0 ? (
-                        <div className="flex items-baseline gap-3">
-                          <span className="text-2xl font-black text-emerald-400">
-                            {formatPrice(activeGame.epicPrice.current)}
-                          </span>
-                          <span className="text-sm text-slate-500 line-through">
-                            {formatPrice(activeGame.epicPrice.original)}
-                          </span>
-                        </div>
-                      ) : (
-                        <span className="text-2xl font-black text-white">
-                          {formatPrice(activeGame.epicPrice.current)}
-                        </span>
-                      )}
-                    </div>
-
-                    <a
-                      href={activeGame.storeUrls.epic}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-2.5 rounded-xl bg-blue-950 hover:bg-blue-900 border border-blue-800 text-blue-300 font-bold text-xs flex items-center justify-center gap-2 transition-colors"
-                    >
-                      🛒 VIEW ON EPIC GAMES <i className="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                    </a>
-                  </div>
-
-                </div>
-
-                {/* 3. PC CỦA TÔI & BENCHMARK ESTIMATION */}
-                <div className="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
-                  <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
-                    <div>
-                      <h3 className="text-xl font-black text-white flex items-center gap-2">
-                        💻 PHÂN TÍCH MÁY CỦA TÔI (BENCHMARK ESTIMATOR)
-                      </h3>
-                      <p className="text-xs text-slate-400 mt-1">
-                        Nhập cấu hình PC của bạn để AI ước tính khả năng vận hành tựa game này.
-                      </p>
-                    </div>
-                    <span className="text-[11px] text-amber-400 bg-amber-950/50 border border-amber-800/50 px-3 py-1 rounded-full">
-                      ⚠️ Ước tính thuật toán - Không thay thế benchmark thực tế
-                    </span>
-                  </div>
-
-                  {/* USER PC CONFIG INPUTS */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-400 mb-1">CPU (Bộ xử lý)</label>
-                      <input
-                        type="text"
-                        value={userSpecs.cpu}
-                        onChange={(e) => setUserSpecs({ ...userSpecs, cpu: e.target.value })}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
-                        placeholder="VD: Core i5-12400F"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-400 mb-1">GPU (Card đồ họa)</label>
-                      <input
-                        type="text"
-                        value={userSpecs.gpu}
-                        onChange={(e) => setUserSpecs({ ...userSpecs, gpu: e.target.value })}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
-                        placeholder="VD: RTX 3060"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-400 mb-1">RAM (Bộ nhớ)</label>
-                      <select
-                        value={userSpecs.ram}
-                        onChange={(e) => setUserSpecs({ ...userSpecs, ram: e.target.value })}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
-                      >
-                        <option value="8">8 GB RAM</option>
-                        <option value="12">12 GB RAM</option>
-                        <option value="16">16 GB RAM</option>
-                        <option value="32">32 GB RAM</option>
-                        <option value="64">64 GB RAM</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-400 mb-1">Ổ cứng (Storage)</label>
-                      <select
-                        value={userSpecs.storage}
-                        onChange={(e) => setUserSpecs({ ...userSpecs, storage: e.target.value })}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-500"
-                      >
-                        <option value="SSD">SSD NVMe / SATA</option>
-                        <option value="HDD">HDD Cơ truyền thống</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* ESTIMATED BENCHMARK RESULTS */}
-                  <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="text-xs font-bold text-slate-400 uppercase">KẾT QUẢ DỰ DOÁN PHẦN CỨNG:</p>
-                      <p className={`font-black text-sm ${performanceEval.color}`}>
-                        {performanceEval.text}
-                      </p>
-                    </div>
-
-                    {/* FPS EXPECTATION GRID */}
-                    <div className="grid grid-cols-3 gap-3 text-center">
-                      <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                        <p className="text-[10px] text-slate-500 font-bold uppercase">1080p Full HD</p>
-                        <p className="text-base font-black text-emerald-400 mt-1">{performanceEval.fps1080p}</p>
-                      </div>
-                      <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                        <p className="text-[10px] text-slate-500 font-bold uppercase">1440p 2K QHD</p>
-                        <p className="text-base font-black text-cyan-400 mt-1">{performanceEval.fps1440p}</p>
-                      </div>
-                      <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                        <p className="text-[10px] text-slate-500 font-bold uppercase">4K Ultra HD</p>
-                        <p className="text-base font-black text-blue-400 mt-1">{performanceEval.fps4k}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* MINIMUM VS RECOMMENDED SPECS TABLE */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-800">
-                    
-                    {/* MINIMUM SPECS */}
-                    <div className="space-y-3">
-                      <h4 className="font-bold text-sm text-slate-300 flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span> CẤU HÌNH TỐI THIỂU (MINIMUM)
-                      </h4>
-                      <div className="bg-slate-900/60 rounded-xl p-4 space-y-2 text-xs border border-slate-800">
-                        <p><strong className="text-slate-400">HĐH:</strong> {activeGame.systemRequirements.minimum.os}</p>
-                        <p><strong className="text-slate-400">CPU:</strong> {activeGame.systemRequirements.minimum.cpu}</p>
-                        <p><strong className="text-slate-400">RAM:</strong> {activeGame.systemRequirements.minimum.ram}</p>
-                        <p><strong className="text-slate-400">GPU:</strong> {activeGame.systemRequirements.minimum.gpu}</p>
-                        <p><strong className="text-slate-400">DirectX:</strong> {activeGame.systemRequirements.minimum.directx}</p>
-                        <p><strong className="text-slate-400">Bộ nhớ:</strong> {activeGame.systemRequirements.minimum.storage}</p>
-                      </div>
-                    </div>
-
-                    {/* RECOMMENDED SPECS */}
-                    <div className="space-y-3">
-                      <h4 className="font-bold text-sm text-slate-300 flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> CẤU HÌNH KHUYẾN NGHỊ (RECOMMENDED)
-                      </h4>
-                      <div className="bg-slate-900/60 rounded-xl p-4 space-y-2 text-xs border border-slate-800">
-                        <p><strong className="text-slate-400">HĐH:</strong> {activeGame.systemRequirements.recommended.os}</p>
-                        <p><strong className="text-slate-400">CPU:</strong> {activeGame.systemRequirements.recommended.cpu}</p>
-                        <p><strong className="text-slate-400">RAM:</strong> {activeGame.systemRequirements.recommended.ram}</p>
-                        <p><strong className="text-slate-400">GPU:</strong> {activeGame.systemRequirements.recommended.gpu}</p>
-                        <p><strong className="text-slate-400">DirectX:</strong> {activeGame.systemRequirements.recommended.directx}</p>
-                        <p><strong className="text-slate-400">Bộ nhớ:</strong> {activeGame.systemRequirements.recommended.storage}</p>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-                {/* 4. STORYLINE & GAMEPLAY ANALYSIS */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                  
-                  {/* CỐT TRUYỆN */}
-                  <div className="lg:col-span-6 glass-card rounded-3xl p-6 sm:p-8 space-y-4">
-                    <h3 className="text-xl font-black text-white flex items-center gap-2">
-                      📖 CỐT TRUYỆN (STORYLINE)
-                    </h3>
-                    
-                    <div className="space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                      <div>
-                        <p className="text-[11px] font-bold text-slate-500 uppercase mb-1">TÓM TẮT CHÍNH THỨC STORE:</p>
-                        <p className="bg-slate-900/80 p-3 rounded-xl border border-slate-800">{activeGame.story.officialSummary}</p>
-                      </div>
-
-                      <div>
-                        <p className="text-[11px] font-bold text-cyan-400 uppercase mb-1">PHÂN TÍCH NARRATIVE TỪ GAME ANALYST:</p>
-                        <p className="bg-cyan-950/30 p-3 rounded-xl border border-cyan-800/30 text-slate-300">{activeGame.story.analystAnalysis}</p>
-                      </div>
-
-                      {/* SPOILER TOGGLE ZONE */}
-                      <div className="pt-2">
-                        <button
-                          onClick={() => setShowSpoiler(!showSpoiler)}
-                          className="px-3 py-1.5 rounded-lg bg-amber-950/40 border border-amber-800/40 text-amber-400 text-xs font-bold flex items-center gap-2"
-                        >
-                          <i className="fa-solid fa-triangle-exclamation"></i>
-                          {showSpoiler ? 'Ẩn Spoiler Cốt Truyện' : '⚠️ Xem Spoiler Zone (Cảnh báo tiết lộ!)'}
-                        </button>
-                        {showSpoiler && (
-                          <p className="mt-2 p-3 rounded-xl bg-red-950/40 border border-red-800/40 text-xs text-red-200 animate-fadeIn">
-                            {activeGame.story.spoilerWarning}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* GAMEPLAY MECHANICS */}
-                  <div className="lg:col-span-6 glass-card rounded-3xl p-6 sm:p-8 space-y-4">
-                    <h3 className="text-xl font-black text-white flex items-center gap-2">
-                      🎮 LỐI CHƠI (GAMEPLAY MECHANICS)
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed bg-slate-900/80 p-3 rounded-xl border border-slate-800">
-                      {activeGame.gameplay.overviewText}
-                    </p>
-
-                    {/* GAMEPLAY STAT BARS */}
-                    <div className="space-y-3 pt-2">
-                      <div>
-                        <div className="flex justify-between text-xs font-bold mb-1">
-                          <span className="text-slate-400">Cơ chế Chiến đấu (Combat)</span>
-                          <span className="text-cyan-400">{activeGame.gameplay.combat} / 10</span>
-                        </div>
-                        <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-400" style={{ width: `${activeGame.gameplay.combat * 10}%` }}></div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="flex justify-between text-xs font-bold mb-1">
-                          <span className="text-slate-400">Khám phá thế giới (Exploration)</span>
-                          <span className="text-cyan-400">{activeGame.gameplay.exploration} / 10</span>
-                        </div>
-                        <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-400" style={{ width: `${activeGame.gameplay.exploration * 10}%` }}></div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="flex justify-between text-xs font-bold mb-1">
-                          <span className="text-slate-400">Phát triển nhân vật (Progression)</span>
-                          <span className="text-cyan-400">{activeGame.gameplay.characterProgression} / 10</span>
-                        </div>
-                        <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                          <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-400" style={{ width: `${activeGame.gameplay.characterProgression * 10}%` }}></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* 5. PROS & CONS + DETAILED SCORE BREAKDOWN */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                  
-                  {/* PROS & CONS */}
-                  <div className="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-8 space-y-6">
-                    <h3 className="text-xl font-black text-white">👍 ƯU ĐIỂM & 👎 NHƯỢC ĐIỂM</h3>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* PROS */}
-                      <div className="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-800/40 space-y-2">
-                        <h4 className="text-xs font-black text-emerald-400 uppercase tracking-wider mb-2">👍 ƯU ĐIỂM NỔI BẬT</h4>
-                        <ul className="space-y-2 text-xs text-slate-300">
-                          {activeGame.pros.map((pro, idx) => (
-                            <li key={idx} className="flex items-start gap-2">
-                              <span className="text-emerald-400 font-bold">✓</span>
-                              <span>{pro}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* CONS */}
-                      <div className="p-4 rounded-2xl bg-red-950/30 border border-red-800/40 space-y-2">
-                        <h4 className="text-xs font-black text-red-400 uppercase tracking-wider mb-2">👎 NHƯỢC ĐIỂM CẦN LƯU Ý</h4>
-                        <ul className="space-y-2 text-xs text-slate-300">
-                          {activeGame.cons.map((con, idx) => (
-                            <li key={idx} className="flex items-start gap-2">
-                              <span className="text-red-400 font-bold">✕</span>
-                              <span>{con}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-
-                    {/* TARGET AUDIENCE */}
-                    <div className="pt-4 border-t border-slate-800 space-y-3">
-                      <h4 className="text-sm font-bold text-white">🎯 TỰA GAME NÀY PHÙ HỢP VỚI AI?</h4>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300">
-                          <p className="font-bold text-emerald-400 mb-1">✅ PHÙ HỢP NẾU BẠN:</p>
-                          {activeGame.suitableFor.map((item, idx) => (
-                            <p key={idx}>• {item}</p>
-                          ))}
-                        </div>
-                        <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300">
-                          <p className="font-bold text-red-400 mb-1">❌ KHÔNG PHÙ HỢP NẾU BẠN:</p>
-                          {activeGame.notSuitableFor.map((item, idx) => (
-                            <p key={idx}>• {item}</p>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* SCORE BREAKDOWN METERS */}
-                  <div className="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-8 space-y-4">
-                    <h3 className="text-xl font-black text-white">📊 ĐIỂM SỐ CHI TIẾT (GAME SCORE)</h3>
-                    
-                    <div className="space-y-3 text-xs">
-                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                        <span className="text-slate-300">🎮 Gameplay (Lối chơi - 20%)</span>
-                        <span className="font-black text-cyan-400 text-sm">{activeGame.ratings.gameplay} / 10</span>
-                      </div>
-                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                        <span className="text-slate-300">📖 Story (Cốt truyện - 15%)</span>
-                        <span className="font-black text-cyan-400 text-sm">{activeGame.ratings.story} / 10</span>
-                      </div>
-                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                        <span className="text-slate-300">🎨 Graphics (Đồ họa - 10%)</span>
-                        <span className="font-black text-cyan-400 text-sm">{activeGame.ratings.graphics} / 10</span>
-                      </div>
-                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                        <span className="text-slate-300">🎵 Audio (Âm thanh - 10%)</span>
-                        <span className="font-black text-cyan-400 text-sm">{activeGame.ratings.audio} / 10</span>
-                      </div>
-                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                        <span className="text-slate-300">⚙️ Performance (Tối ưu - 15%)</span>
-                        <span className="font-black text-cyan-400 text-sm">{activeGame.ratings.performance} / 10</span>
-                      </div>
-                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                        <span className="text-slate-300">🔁 Replayability (Giá trị chơi lại - 10%)</span>
-                        <span className="font-black text-cyan-400 text-sm">{activeGame.ratings.replayability} / 10</span>
-                      </div>
-                      <div className="flex justify-between items-center p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                        <span className="text-slate-300">💰 Value (Giá trị đầu tư - 20%)</span>
-                        <span className="font-black text-cyan-400 text-sm">{activeGame.ratings.value} / 10</span>
-                      </div>
-                    </div>
-
-                    <div className="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-800/40 text-center">
-                      <p className="text-[10px] uppercase font-bold text-slate-400">ĐÁNH GIÁ TỔNG QUAN TỪ AI</p>
-                      <p className="text-xs text-slate-300 mt-1 italic">"{activeGame.verdict}"</p>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* 6. TRAILER & SCREENSHOTS */}
-                <div className="glass-card rounded-3xl p-6 sm:p-8 space-y-6">
-                  <h3 className="text-xl font-black text-white">🎬 MEDIA & HÌNH ẢNH GAME</h3>
-                  
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    {/* VIDEO TRAILER */}
-                    <div className="lg:col-span-7 rounded-2xl overflow-hidden border border-slate-800 bg-black aspect-video">
-                      <iframe
-                        src={activeGame.trailerUrl}
-                        title="Game Trailer"
-                        className="w-full h-full"
-                        allowFullScreen
-                      ></iframe>
-                    </div>
-
-                    {/* SCREENSHOTS GRID */}
-                    <div className="lg:col-span-5 grid grid-cols-1 gap-4">
-                      {activeGame.screenshots.map((img, idx) => (
-                        <div key={idx} className="rounded-xl overflow-hidden border border-slate-800 group">
-                          <img src={img} className="w-full h-auto object-cover group-hover:scale-105 transition-transform" alt="Screenshot" />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-              </section>
-            )}
-
-            {/* OTHER TABS */}
-            {activeTab === "DISCOVER" && (
-              <section className="glass-card rounded-3xl p-6 sm:p-8 space-y-6 animate-fadeIn">
-                <h3 className="text-2xl font-black text-white">🎲 KHÁM PHÁ CÁC TỰA GAME NỔI BẬT</h3>
-                <p className="text-xs text-slate-400">Danh sách các tựa game được cộng đồng đánh giá cao nhất 2026.</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {PRESET_GAMES_DATABASE.map(game => (
-                    <div
-                      key={game.id}
-                      onClick={() => { setActiveGame(game); setActiveTab("ANALYST"); addToHistory(game); }}
-                      className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-cyan-500 transition-all cursor-pointer group"
-                    >
-                      <img src={game.coverImage} className="w-full h-48 object-cover group-hover:scale-105 transition-transform" alt={game.name} />
-                      <div className="p-4 space-y-2">
-                        <h4 className="font-bold text-white text-base">{game.name}</h4>
-                        <p className="text-xs text-slate-400">{game.genres.join(", ")}</p>
-                        <div className="flex justify-between items-center text-xs font-bold pt-2 border-t border-slate-800">
-                          <span className="text-emerald-400">{formatPrice(game.steamPrice.current)}</span>
-                          <span className="text-cyan-400">★ {calculateOverallScore(game.ratings)}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {activeTab === "FAVS" && (
-              <section className="glass-card rounded-3xl p-6 sm:p-8 space-y-6 animate-fadeIn">
-                <h3 className="text-2xl font-black text-white">❤️ GAME ĐÃ LƯU YÊU THÍCH</h3>
-                {favorites.length === 0 ? (
-                  <p className="text-sm text-slate-500 italic">Chưa có tựa game nào trong danh sách yêu thích.</p>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {favorites.map(fav => (
-                      <div key={fav.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between gap-4">
-                        <img src={fav.cover} className="w-16 h-16 object-cover rounded-xl" alt={fav.name} />
-                        <div className="flex-1">
-                          <h4 className="font-bold text-white text-sm">{fav.name}</h4>
-                          <p className="text-xs text-cyan-400 font-bold">Điểm: {fav.rating} / 10</p>
-                        </div>
-                        <button onClick={() => toggleFavorite({ id: fav.id })} className="text-red-400 hover:text-red-300 p-2">
-                          <i className="fa-solid fa-trash"></i>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </section>
-            )}
-
-            {activeTab === "HISTORY" && (
-              <section className="glass-card rounded-3xl p-6 sm:p-8 space-y-6 animate-fadeIn">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-2xl font-black text-white">🕘 LỊCH SỬ TRA CỨU</h3>
-                  {searchHistory.length > 0 && (
-                    <button onClick={() => setSearchHistory([])} className="text-xs text-red-400 hover:underline">Xóa lịch sử</button>
-                  )}
-                </div>
-                {searchHistory.length === 0 ? (
-                  <p className="text-sm text-slate-500 italic">Chưa có lịch sử tìm kiếm.</p>
-                ) : (
-                  <div className="divide-y divide-slate-800">
-                    {searchHistory.map((item, idx) => (
-                      <div key={idx} className="py-3 flex items-center justify-between text-xs text-slate-300">
-                        <span className="font-bold text-white">{item.name}</span>
-                        <span className="text-slate-500">{item.date}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </section>
-            )}
-
-          </main>
-
-          {/* CUSTOM NOTIFICATION MODAL */}
-          {showModalMsg && (
-            <div className="fixed bottom-6 right-6 z-50 bg-cyan-950 border border-cyan-500 text-cyan-200 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold animate-bounce">
-              <i className="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
-              <span>{showModalMsg}</span>
-              <button onClick={() => setShowModalMsg(null)} className="ml-2 text-slate-400 hover:text-white">✕</button>
-            </div>
-          )}
-
-          {/* FOOTER */}
-          <footer className="border-t border-slate-800 bg-slate-950 py-8 text-center text-xs text-slate-500">
-            <div className="max-w-7xl mx-auto px-4 space-y-3">
-              <p className="font-bold text-slate-400 text-sm">
-                © 2026 GAME ANALYST HUB – TRUNG HẬU
-              </p>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-cyan-400 font-semibold text-[11px]">
-                <i className="fa-solid fa-code"></i> Created & Developed by Trung Hậu
-              </div>
-              <p className="text-[11px]">
-                Nguồn dữ liệu tham chiếu chính thức từ <a href="https://store.steampowered.com/" target="_blank" className="underline text-slate-400">Steam Store</a> & <a href="https://store.epicgames.com/" target="_blank" className="underline text-slate-400">Epic Games Store</a>.
-              </p>
-            </div>
-          </footer>
-
+<body>
+
+<header class="top">
+  <div class="brand"><span class="dot"></span>GAME SCOUT</div>
+  <div class="tagline">NHÀ PHÂN TÍCH GAME — DỮ LIỆU TRỰC TIẾP TỪ STEAM &amp; EPIC GAMES</div>
+</header>
+
+<div class="wrap">
+
+  <div class="console">
+    <div class="corner-tl"></div><div class="corner-br"></div>
+    <div class="console-label">// nhập tên game hoặc dán link cửa hàng</div>
+    <div class="search-row">
+      <input type="text" id="query" placeholder="VD: Hollow Knight Silksong  —  hoặc  https://store.steampowered.com/app/...">
+      <button id="searchBtn">Phân tích</button>
+    </div>
+    <div class="hint">
+      Hỗ trợ: tên game (tìm trên Steam) hoặc link trực tiếp dạng <code>store.steampowered.com/app/ID</code>.
+      Link Epic Games Store hiện chưa có API công khai chính thức nên trang sẽ hiển thị link để bạn đối chiếu thủ công.
+    </div>
+  </div>
+
+  <div id="status"></div>
+
+  <section id="sheet" class="sheet">
+    <div class="sheet-hero">
+      <img id="s-image" src="" alt="">
+      <div class="sheet-hero-info">
+        <h2 id="s-name">—</h2>
+        <div class="devpub" id="s-devpub">—</div>
+        <div class="badge-row" id="s-badges"></div>
+      </div>
+    </div>
+
+    <div class="panel-grid">
+      <div class="panel">
+        <h3>Tổng quan</h3>
+        <div class="kv"><span>Thể loại</span><span id="s-genre">—</span></div>
+        <div class="kv"><span>Giá bán</span><span id="s-price">—</span></div>
+        <div class="kv"><span>Phát hành</span><span id="s-release">—</span></div>
+        <div class="kv"><span>Tình trạng</span><span id="s-status">—</span></div>
+      </div>
+
+      <div class="panel">
+        <h3>Đánh giá cộng đồng</h3>
+        <div class="gauge-wrap">
+          <div class="gauge" id="s-gauge"><span id="s-gauge-pct">—</span></div>
+          <div>
+            <p id="s-review-desc" style="margin:0;font-size:13.5px;">Chưa có dữ liệu</p>
+            <p id="s-review-count" style="margin:2px 0 0;font-size:12px;color:var(--muted);"></p>
+          </div>
         </div>
-      );
+      </div>
+
+      <div class="panel full">
+        <h3>Cốt truyện / Bối cảnh</h3>
+        <p id="s-story">—</p>
+      </div>
+
+      <div class="panel">
+        <h3>Người chơi &amp; hình thức</h3>
+        <div class="tag-cloud" id="s-players"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Ngôn ngữ hỗ trợ</h3>
+        <p id="s-lang" style="font-size:13px;line-height:1.7;">—</p>
+      </div>
+
+      <div class="panel full">
+        <h3>Cấu hình đề nghị (PC)</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="specs-block">
+            <h4>Tối thiểu</h4>
+            <ul id="s-min-specs"><li>—</li></ul>
+          </div>
+          <div class="specs-block">
+            <h4>Đề nghị</h4>
+            <ul id="s-rec-specs"><li>—</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel full">
+        <h3>Tags nổi bật</h3>
+        <div class="tag-cloud" id="s-tags"></div>
+      </div>
+    </div>
+
+    <div class="source-line">
+      <span id="s-source">Nguồn dữ liệu: —</span>
+      <span id="s-time">Cập nhật: —</span>
+    </div>
+  </section>
+
+  <div class="demo-note" id="demoNote" style="display:none;">
+    ⚠ Không thể truy cập trực tiếp API của Steam từ trình duyệt trên GitHub Pages tĩnh (giới hạn CORS).
+    Trang đang dùng một proxy công khai chỉ mang tính minh hoạ — để chạy ổn định lâu dài, hãy triển khai một
+    serverless proxy của riêng bạn (Cloudflare Worker / Vercel Function) gọi tới
+    <code>store.steampowered.com/api/appdetails</code> rồi trả JSON về cho trang này.
+  </div>
+
+</div>
+
+<footer>
+  GAME SCOUT — công cụ phân tích &amp; giới thiệu game theo thời gian thực<br>
+  Nguồn: <span class="credit">Trung Hậu</span>
+</footer>
+
+<script>
+(function(){
+  const PROXY = "https://api.allorigins.win/raw?url=";
+  const $ = (id) => document.getElementById(id);
+
+  const input = $("query");
+  const btn = $("searchBtn");
+  const statusEl = $("status");
+  const sheet = $("sheet");
+  const demoNote = $("demoNote");
+
+  function setStatus(msg, isErr){
+    statusEl.textContent = msg || "";
+    statusEl.className = isErr ? "err" : "";
+  }
+
+  function extractAppId(text){
+    const m = text.match(/store\.steampowered\.com\/app\/(\d+)/i);
+    return m ? m[1] : null;
+  }
+
+  function isEpicLink(text){
+    return /epicgames\.com/i.test(text);
+  }
+
+  async function fetchJson(url){
+    const res = await fetch(PROXY + encodeURIComponent(url));
+    if(!res.ok) throw new Error("network");
+    return res.json();
+  }
+
+  async function findAppId(term){
+    const url = `https://store.steampowered.com/api/storesearch/?term=${encodeURIComponent(term)}&cc=vn&l=vietnamese`;
+    const data = await fetchJson(url);
+    if(data && data.items && data.items.length){
+      return data.items[0].id;
+    }
+    return null;
+  }
+
+  function stripHtml(html){
+    const d = document.createElement("div");
+    d.innerHTML = html || "";
+    return d.textContent.trim();
+  }
+
+  function renderBadge(text, gold){
+    const b = document.createElement("span");
+    b.className = "badge" + (gold ? " gold" : "");
+    b.textContent = text;
+    return b;
+  }
+
+  function renderTag(text){
+    const s = document.createElement("span");
+    s.textContent = text;
+    return s;
+  }
+
+  async function renderFromAppId(appid){
+    setStatus("Đang lấy dữ liệu chi tiết...");
+    const detailUrl = `https://store.steampowered.com/api/appdetails?appids=${appid}&cc=vn&l=vietnamese`;
+    const reviewUrl = `https://store.steampowered.com/appreviews/${appid}?json=1&language=all&purchase_type=all`;
+
+    const detailData = await fetchJson(detailUrl);
+    const app = detailData && detailData[appid] && detailData[appid].data;
+    if(!app){
+      setStatus("Không tìm thấy dữ liệu cho game này trên Steam.", true);
+      return;
     }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
+    let reviewData = null;
+    try{ reviewData = await fetchJson(reviewUrl); }catch(e){ /* optional */ }
+
+    // Hero
+    $("s-image").src = app.header_image || "";
+    $("s-image").alt = app.name || "";
+    $("s-name").textContent = app.name || "—";
+    const dev = (app.developers||[]).join(", ") || "—";
+    const pub = (app.publishers||[]).join(", ") || "—";
+    $("s-devpub").textContent = `Phát triển: ${dev}  |  Phát hành: ${pub}`;
+
+    const badgeRow = $("s-badges");
+    badgeRow.innerHTML = "";
+    badgeRow.appendChild(renderBadge("STEAM", true));
+    if(app.is_free) badgeRow.appendChild(renderBadge("MIỄN PHÍ"));
+    if(app.release_date && app.release_date.coming_soon) badgeRow.appendChild(renderBadge("SẮP RA MẮT"));
+
+    // Overview
+    $("s-genre").textContent = (app.genres||[]).map(g=>g.description).join(", ") || "—";
+    $("s-price").textContent = app.is_free ? "Miễn phí" :
+      (app.price_overview ? `${app.price_overview.final_formatted}` +
+        (app.price_overview.discount_percent ? ` (-${app.price_overview.discount_percent}% từ ${app.price_overview.initial_formatted})` : "")
+        : "Không công bố");
+    $("s-release").textContent = app.release_date ? app.release_date.date : "—";
+    $("s-status").textContent = (app.release_date && app.release_date.coming_soon) ? "Sắp phát hành" : "Đã phát hành";
+
+    // Reviews
+    if(reviewData && reviewData.query_summary){
+      const q = reviewData.query_summary;
+      const pct = q.total_reviews ? Math.round((q.total_positive / q.total_reviews) * 100) : 0;
+      $("s-gauge").style.setProperty("--pct", pct);
+      $("s-gauge-pct").textContent = pct + "%";
+      $("s-review-desc").textContent = q.review_score_desc || "—";
+      $("s-review-count").textContent = `${q.total_reviews.toLocaleString("vi-VN")} lượt đánh giá`;
+    } else {
+      $("s-gauge-pct").textContent = "N/A";
+      $("s-review-desc").textContent = "Không có dữ liệu đánh giá";
+      $("s-review-count").textContent = "";
+    }
+
+    // Story
+    $("s-story").textContent = stripHtml(app.short_description) || "Không có mô tả.";
+
+    // Players & format
+    const playersEl = $("s-players");
+    playersEl.innerHTML = "";
+    const cats = (app.categories||[]).map(c=>c.description);
+    const playerRelated = cats.filter(c => /player|co-op|pvp|multi|single/i.test(c));
+    (playerRelated.length ? playerRelated : ["Không công bố"]).forEach(c => playersEl.appendChild(renderTag(c)));
+
+    // Languages
+    $("s-lang").textContent = stripHtml(app.supported_languages) || "Không công bố";
+
+    // Specs
+    function buildSpecs(listEl, htmlBlock){
+      listEl.innerHTML = "";
+      const text = stripHtml(htmlBlock);
+      if(!text){ listEl.innerHTML = "<li>Không công bố</li>"; return; }
+      const parts = text.split(/(?=OS:|Processor:|Memory:|Graphics:|Storage:|DirectX:|CPU:|RAM:|GPU:|Ổ cứng:|Bộ nhớ:)/i)
+                         .map(s=>s.trim()).filter(Boolean);
+      (parts.length ? parts : [text]).forEach(p=>{
+        const li = document.createElement("li");
+        li.textContent = p;
+        listEl.appendChild(li);
+      });
+    }
+    const pc = app.pc_requirements || {};
+    buildSpecs($("s-min-specs"), pc.minimum);
+    buildSpecs($("s-rec-specs"), pc.recommended);
+
+    // Tags (Steam appdetails doesn't include user tags directly; use categories+genres as fallback)
+    const tagsEl = $("s-tags");
+    tagsEl.innerHTML = "";
+    const tagPool = [...(app.genres||[]).map(g=>g.description), ...cats];
+    [...new Set(tagPool)].slice(0,10).forEach(t => tagsEl.appendChild(renderTag(t)));
+
+    $("s-source").textContent = `Nguồn dữ liệu: Steam Store (appid ${appid})`;
+    $("s-time").textContent = `Cập nhật: ${new Date().toLocaleString("vi-VN")}`;
+
+    sheet.classList.add("show");
+    demoNote.style.display = "block";
+    setStatus("");
+  }
+
+  async function handleSearch(){
+    const raw = input.value.trim();
+    if(!raw){ setStatus("Vui lòng nhập tên game hoặc link.", true); return; }
+
+    if(isEpicLink(raw)){
+      setStatus("Đây là link Epic Games Store — hiện chưa có API công khai chính thức để lấy dữ liệu tự động. Vui lòng mở link để xem trực tiếp, hoặc thử tìm game này trên Steam.", true);
+      sheet.classList.remove("show");
+      return;
+    }
+
+    btn.disabled = true;
+    setStatus("Đang tìm kiếm...");
+    try{
+      let appid = extractAppId(raw);
+      if(!appid){
+        appid = await findAppId(raw);
+      }
+      if(!appid){
+        setStatus("Không tìm thấy game phù hợp trên Steam. Thử lại với tên chính xác hơn hoặc dán link trực tiếp.", true);
+        sheet.classList.remove("show");
+      } else {
+        await renderFromAppId(appid);
+      }
+    }catch(err){
+      console.error(err);
+      setStatus("Không thể kết nối tới nguồn dữ liệu lúc này (giới hạn CORS/proxy demo). Vui lòng thử lại sau.", true);
+    }finally{
+      btn.disabled = false;
+    }
+  }
+
+  btn.addEventListener("click", handleSearch);
+  input.addEventListener("keydown", (e) => { if(e.key === "Enter") handleSearch(); });
+})();
+</script>
+
 </body>
 </html>
